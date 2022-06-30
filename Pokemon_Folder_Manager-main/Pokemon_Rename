@@ -1,0 +1,45 @@
+import imp
+from lib2to3.pgen2.token import NAME, NUMBER
+import os
+import shutil
+import glob
+import re
+from tokenize import Number
+
+src_path = r"C:\Users\JASON LEE\Documents\1Python\Pokemon_Game\gen8 - Copy"
+
+def rename_pokemon():
+    list_of_pokemon = input("please insert list of pokemon here").split()
+    print(list_of_pokemon)
+    
+    for i in range(len(list_of_pokemon)): #Mr. Rime is split by a space which messes up the indexing of the number and name
+        try: #The loop keeps going because the length is twice as long as it needs to be. The list composes of BOTH name and number of each pokemon.
+            NUMBER = list_of_pokemon[2*i]
+            if i == 0:
+                NUMBER = list_of_pokemon[0]
+        except:
+            pass
+        try:
+                NAME = list_of_pokemon[(2*i)+1]
+                if i == 0:
+                 NAME = list_of_pokemon[1]
+        except:
+            pass
+        
+        print(NUMBER+" "+NAME)
+        glob.glob(src_path, recursive=False)
+
+        for sprite in glob.iglob(src_path+r"/*.png"): #iglob is an iterator version of glob which iterates each file
+        #sprite is too unclear as a variable name for those with no background in video games
+            if re.search(f'{NUMBER}', sprite):    #find image with the number as the name
+                try:
+                    os.rename(sprite,src_path+"\\"+f"{NAME}"+".png")
+                    print(sprite)
+                except:
+                    if re.search(f'{NUMBER}_', sprite): #the code already iterates to the next image with the same name. 845 gets renamed to cramorant. So the program moves on to 845_1. So really, you don't need this line.
+                    #check flowchart for more info
+                        os.rename(sprite,sprite.replace(f'{NUMBER}',f'{NAME}'))
+
+    # Continue reading the book, review your previous problems and then come back. 
+
+rename_pokemon()
