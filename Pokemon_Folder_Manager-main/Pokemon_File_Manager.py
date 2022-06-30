@@ -23,7 +23,7 @@ def rename_pokemon():
         if i == 0:
             NAME = list_of_pokemon[1]
         
-        print(NUMBER+" "+NAME)
+
         for image_filename in glob.iglob(src_path+r"/*.png"): 
             if re.search(f'{NUMBER}', image_filename):
                 try:
